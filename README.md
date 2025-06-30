@@ -20,7 +20,7 @@ TCPM integrates counterfactual prediction, adversarial learning, and optimal sea
 
 ## Framework Architecture
 
-![TCPM Framework](https://example.com/tcpm_framework.png)  
+![TCPM Framework](fig_1.png)  
 *Figure 1: Overview of the TCPM framework analysis workflow*
 
 1. **Treatment-Free Physiological Profile Learning**: Encoder-decoder architecture with adversarial training to eliminate treatment confounding
