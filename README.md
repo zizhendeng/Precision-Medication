@@ -40,7 +40,7 @@ conda env create -f environment.yaml
 ```
 
 ## Usage
-The framework supports multiple disease cohorts. Example data loaders for public datasets (MIMIC-III derived) and private datasets are provided in `LoadData.py`. 'The main training and treatment strategy optimization is in test.py'
+The framework supports multiple disease cohorts. Example data loaders for public datasets (MIMIC-III derived) and private datasets are provided in `LoadData.py`. The main training and treatment strategy optimization is in `test.py`
 
 
 ### Data Preparation
