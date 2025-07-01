@@ -47,87 +47,37 @@ The framework supports multiple disease cohorts. Example data loaders for public
 
 ```python
 # Example: Loading sepsis dataset
-from LoadData import MIMICDataLoader
+csv_data, headers = LoadData.load('./data/disease_data.csv')
 
 # Initialize data loader
-data_loader = MIMICDataLoader(dataset_type='sepsis')
-
-# Load and preprocess data
-train_data, val_data, test_data = data_loader.load_and_preprocess()
-```
+encoder_data = LoadData.getEncoderData(csv_data, headers,
+                                        LoadData.getMaxSequenceLength(csv_data),
+                                        LoadData.getMaxTreatmentNumber(csv_data, headers))
 
 ### Model Training
 
-Train the TFPP (Treatment-Free Physiological Profile) encoder:
-
 ```python
-from models.CRN_model import TFPPEncoder
 
-# Initialize model
-tfpp_encoder = TFPPEncoder(input_dim=39, hidden_dim=64, treatment_dim=2)
+en_lit_crn = LitCRN(params, best_hyperparams, False, learning_rate=0.01)
+en_trainer = L.Trainer(max_epochs=30, deterministic=True, devices=devices)
 
-# Train the model
-tfpp_encoder.train(
-    train_data=train_data,
-    val_data=val_data,
-    epochs=50,
-    batch_size=32,
-    learning_rate=1e-3
-)
+de_lit_model = LitCRN(params, best_hyperparams, True, 0.01)
+de_trainer = L.Trainer(max_epochs=30,  deterministic=True, devices=devices)
+
 ```
 
-### Counterfactual Prediction
-
-```python
-from models.CRN_Lightning_model import CounterfactualPredictor
-
-# Initialize predictor
-predictor = CounterfactualPredictor(tfpp_encoder=tfpp_encoder)
-
-# Load trained model
-predictor.load_weights('models/pretrained/tfpp_sepsis.pth')
-
-# Predict outcomes under alternative treatments
-patient_data = test_data[0]  # Example patient data
-predicted_outcomes = predictor.predict_counterfactual(
-    patient_data=patient_data,
-    treatment_strategies=[[0, 0], [1, 0], [0, 1], [1, 1]]  # Example treatment sequences
-)
-```
 
 ### Optimal Treatment Search
 
 ```python
-from AStarSearch import OptimalTreatmentSearch
-
-# Initialize search algorithm
-search_algorithm = OptimalTreatmentSearch(predictor=predictor)
 
 # Find optimal treatment sequence
-optimal_treatment = search_algorithm.find_optimal(
-    patient_data=patient_data,
-    horizon=4  # Predict 4 time steps ahead
-)
+ results = SearchApp.getResult(predictor, en_lit_crn, L.Trainer(logger=False, deterministic=True,  devices=devices), de_lit_model,
+                                    [csv_data[index]], headers, num_treatments, horizons,
+                                    best_hyperparams['rnn_hidden_units'],
+                                    lip_const_K, 1.0, baseline_steps, 10)
 ```
 
-### Subgroup Analysis
-
-```python
-from utils.subgroup_analysis import SubgroupAnalyzer
-
-# Initialize analyzer
-analyzer = SubgroupAnalyzer(tfpp_encoder=tfpp_encoder)
-
-# Identify subgroups
-subgroups = analyzer.identify_subgroups(
-    data=test_data,
-    n_subgroups=4
-)
-
-# Generate physiological networks
-correlation_networks = analyzer.construct_correlation_networks(subgroups)
-causal_graphs = analyzer.construct_causal_graphs(subgroups)
-```
 
 ## Results
 
@@ -173,10 +123,8 @@ If you use this framework in your research, please cite our paper:
 ## Contact
 
 For questions or issues, please contact:
-
 - Jinzhuo Wang: wangjinzhuo@pku.edu.cn
-- Zizhen Deng: [corresponding email]
-
+  
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
