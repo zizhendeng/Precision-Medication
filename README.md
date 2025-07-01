@@ -35,8 +35,8 @@ TCPM integrates counterfactual prediction, adversarial learning, and optimal sea
 git clone https://github.com/zizhendeng/Precision-Medication.git
 cd Precision-Medication
 
-# Install required dependencies
-pip install -r requirements.txt
+# Use conda to create a new environment according to environment.yaml
+conda env create -f environment.yaml
 ```
 
 ## Usage
