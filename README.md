@@ -125,7 +125,7 @@ This project referenced and borrowed from the following resources during the dev
 - **Model Architecture**：
   - [Estimating counterfactual treatment outcomes over time through adversarially balanced representations](https://openreview.net/forum?id=BJg866NFvB)
   - [Counterfactual-Recurrent-Network](https://github.com/ioanabica/Counterfactual-Recurrent-Network.git)  
-    *I. Bica, A. M. Alaa, J. Jordon, M. van der Schaar*  
+  - *I. Bica, A. M. Alaa, J. Jordon, M. van der Schaar*  
     Our model design is partly inspired by the CRN framework proposed in the paper, which extracts temporal ubiased representations. On this basis, we optimize the model by adding Lipschitz continuity constraints, multi-outcome counterfactual predictions, and optimization search.
     
 - **Datasets**：
@@ -135,7 +135,7 @@ This project referenced and borrowed from the following resources during the dev
 - **Data processing**：
   - [Sepsis Cohort from MIMIC III](https://github.com/microsoft/mimic_sepsis.git)
   - [The Artificial Intelligence Clinician learns optimal treatment strategies for sepsis in intensive care](https://www.nature.com/articles/s41591-018-0213-5)
-    *Komorowski M, Celi L A, Badawi O, et al*
+  - *Komorowski M, Celi L A, Badawi O, et al*
    For the data in MIMIC, the missing values ​​of physiological indicators and the processing of discrete time series, we mainly refer to this paper and the corresponding project.
 
     
