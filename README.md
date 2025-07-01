@@ -93,18 +93,30 @@ Detailed results can be found in our paper and supplementary materials.
 ## Directory Structure
 
 ```
-├── data/                 # Data processing utilities
-├── models/               # Model architectures
-│   ├── CRN_model.py      # Causal recurrent network for TFPP
-│   └── CRN_Lightning_model.py # PyTorch Lightning implementation
-├── utils/                # Utility functions
-│   ├── subgroup_analysis.py
-│   └── network_construction.py
-├── AStarSearch.py        # Optimal treatment search implementation
-├── LoadData.py           # Data loading and preprocessing
-├── SearchAdapter.py      # Adapter for search algorithms
-├── SearchApp.py          # Application for treatment search
-└── test.py               # Testing scripts
+Precision-Medication/
+├── README.md
+│   
+├── SearchAdapter.py
+│   └── Implements the treatment strategy optimization function based on the A* search algorithm, and defines classes such as CRNState, CRNTreatment, CRNConvertor, and CRNRestEstimator.
+├── SearchApp.py
+│   └── Contains auxiliary functions such as obtaining the initial state, L value, reward function, etc., and calls the getResult function in SearchAdapter to search
+├── CRN_Lightning_model.py
+│   └── Use LightningModule and LightningDataModule to encapsulate the training, validation, testing, and prediction steps of the CRN model.
+├── CRN_model.py
+│   └── Define the structure of the CRN model
+├── LoadData.py
+│   └── Provides data loading, processing and conversion functions, including loading data from CSV files, obtaining the maximum sequence length, obtaining encoder and decoder data, etc.
+├── LipDecoder.py
+│   └── Defining a decoder with Lipschitz constraints
+├── AStarSearch.py
+│   └── Implements the core logic of the A* search algorithm, including classes such as state, treatment, converter, residual reward estimator, and searcher
+├── test.py
+│   └── Test script, including setting random seeds, loading data, training encoder and decoder models, and calling SearchApp for search
+├── compute_effects.py
+│   └── Used to calculate causal effects at the individual level
+├── utils/
+│   ├── evaluation_utils.py
+│   │   └── Contains data processing and formatting functions for preparing data for training encoders and seq2seq architectures
 ```
 ## Acknowledgments
 
